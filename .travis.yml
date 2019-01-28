@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t sdreger/fibo-fe-test -f ./frontend/Dockerfile.dev ./frontend
+  
+script:
+  - docker run sdreger/fibo-fe-test npm test -- --coverage
+
+after_success:
+  - docker build -t sdreger/fibo-fe ./frontend
+  - docker build -t sdreger/fibo-nginx ./nginx
+  - docker build -t sdreger/fibo-be ./serverless
+  - docker build -t sdreger/fibo-wrk ./worker
+
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  - docker push sdreger/fibo-fe
+  - docker push sdreger/fibo-nginx
+  - docker push sdreger/fibo-be
+  - docker push sdreger/fibo-wrk
+  
