@@ -1,0 +1,38 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "fibo-fe",
+            "image": "sdreger/fibo-fe",
+            "hostname": "frontend",
+            "essential": false
+        },
+        {
+            "name": "fibo-be",
+            "image": "sdreger/fibo-be",
+            "hostname": "api",
+            "essential": false
+        },
+        {
+            "name": "fibo-wrk",
+            "image": "sdreger/fibo-wrk",
+            "hostname": "worker",
+            "essential": false
+        },
+        {
+            "name": "fibo-nginx",
+            "image": "sdreger/fibo-nginx",
+            "essential": true,
+            "portsMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": [
+                "fibo-fe",
+                "fibo-be"
+            ]
+        }
+    ]
+}

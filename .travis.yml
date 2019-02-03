@@ -11,7 +11,7 @@ script:
 after_success:
   - docker build -t sdreger/fibo-fe ./frontend
   - docker build -t sdreger/fibo-nginx ./nginx
-  - docker build -t sdreger/fibo-be ./serverless
+  - docker build -t sdreger/fibo-be ./server
   - docker build -t sdreger/fibo-wrk ./worker
 
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
